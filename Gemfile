@@ -60,3 +60,13 @@ group :development do
   # gem "spring"
 end
 
+
+gem "tailwindcss-rails", "~> 2.3"
+
+gem 'devise', '~> 4.9', '>= 4.9.3'
+
+gem 'faker'
+
+gem 'money-rails', '~> 1.12'
+
+gem "image_processing", ">= 1.2"

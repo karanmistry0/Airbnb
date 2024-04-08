@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Airbnb</title>
+    <title>Airbnb | Holiday rentals, cabins, beach houses & more</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <%= favicon_link_tag 'airbnb.ico' %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
 
   <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% if controller_name == "registrations"  || controller_name == "sessions" || controller_name == "passwords"%>
+    <%else %>
+    <%= render 'layouts/header' %>
+    <% end %>
     <%= yield %>
   </body>
 </html>
