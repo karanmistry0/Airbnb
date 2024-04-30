@@ -10,7 +10,11 @@ module.exports = {
         dark: '#ff385c'
       }
     },
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        '[auto,auto,1fr]': 'auto auto 1fr',
+      },
+    },
   },
   plugins: [
   ],

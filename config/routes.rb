@@ -13,4 +13,19 @@ Rails.application.routes.draw do
   namespace :api do
     resources :whislists, only: [:create,:destroy]
   end
+
+  resources :properties, only: [:show] do
+    resources :bookings, only: [:new]
+  end
+
+  resources :booking_payments, only: [:create]
+  get "booking_payments/success", to: "booking_payments#success"
+
+  resources :wishlist, only: [:index]
+  resource :profile, only: [:edit,:update]
+  resource :email, only: [:edit,:update]
+  resource :password, only: [:edit,:update]
+  resources :reservations, only: [:index] do
+    resources :reviews, only: [:new,:create]
+  end
 end

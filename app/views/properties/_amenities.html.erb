@@ -1,0 +1,20 @@
+<div class="lg:col-span-2 lg:col-start-1 lg:pr-8 ">
+  <!-- Description and details -->
+  <div class="border-t border-gray-200 pt-10 ">
+    <h2 class="text-xl font-medium leading-6 text-gray-900">What this place offers</h2>
+
+    <div class="mt-8 grid grid-col-1 lg:grid-cols-2">
+      <% amenities.limit(8).each do |amenity| %>
+        <div class="py-2   flex">
+          <%= image_tag "amenities/#{amenity.icon}",class:"w-6 h-6" %>
+          <p class="ms-2"><%= amenity.name %></p>
+        </div>
+      <% end %>
+    </div>
+    <% if amenities.count > 8 %>
+      <button data-controller="amenities" data-action="click->amenities#toggleAmenitiesShow" type="button" class="mt-10 rounded-md bg-white px-4 py-3 text-sm font-medium text-gray-900 text-lg ring-1 ring-inset ring-black hover:bg-gray-50">Show all <%= amenities.count %> amenities</button>
+    <% end %>
+  </div>
+</div>
+
+<%= render 'shared/modal',modalTriggerId:"amenities" ,content: 'properties/amenities_modal' ,content_params:{amenities:amenities}%>
