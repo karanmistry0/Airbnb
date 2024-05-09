@@ -1,0 +1,43 @@
+<div
+  data-controller="share-modal"
+  data-share-url="<%= url_for(only_path: false) %>"
+>
+  <button data-action="click->modal#toggleModal" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+    <span class="absolute -inset-2.5"></span>
+    <span class="sr-only">Close panel</span>
+    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+  <h2 class="text-2xl font-medium leading-6 text-gray-900 mx-6 mt-6" id="modal-title">Search</h2>
+
+  <div class="m-6 flex flex-col" data-controller="search-modal">
+    <%= form_with url:search_path,method: :get,class:"mt-10 grid grid-cols-1 gap-y-4"  do |f| %>
+
+      <div class="grid grid-cols-2 items-center">
+        <%= f.label 'Select Country', class:'text-base leading-6 text-gray-900' %>
+        <%= f.country_select :country_code,{include_blank:'Select a country'},class:'rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6' %>
+      </div>
+
+      <div class="grid grid-cols-2 items-center">
+        <%= f.label :check_in, class:'text-base leading-6 text-gray-900' %>
+        <%= f.text_field :check_in,data:{"search-modal-target":"checkin" },
+               class:"rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6",
+                         placeholder:"#{Date.today.strftime("%Y-%m-%d")}"
+          %>
+      </div>
+
+      <div class="grid grid-cols-2 items-center">
+        <%= f.label :check_out, class:'text-base leading-6 text-gray-900' %>
+        <%= f.text_field :check_out,data:{"search-modal-target":"checkout" },
+                         class:"rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6",
+                         placeholder:"#{Date.tomorrow.strftime("%Y-%m-%d")}"
+        %>
+      </div>
+      <div class="col-span-full">
+        <%= f.submit "Search",class:"cursor-pointer flex h-10 items-center justify-center rounded-md border border-transparent bg-primary px-8 py-1 text-base font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"%>
+      </div>
+
+  <% end %>
+  </div>
+</div>

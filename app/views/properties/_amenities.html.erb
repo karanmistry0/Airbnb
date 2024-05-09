@@ -5,10 +5,7 @@
 
     <div class="mt-8 grid grid-col-1 lg:grid-cols-2">
       <% amenities.limit(8).each do |amenity| %>
-        <div class="py-2   flex">
-          <%= image_tag "amenities/#{amenity.icon}",class:"w-6 h-6" %>
-          <p class="ms-2"><%= amenity.name %></p>
-        </div>
+        <%= render "properties/amenity_item",amenity:amenity %>
       <% end %>
     </div>
     <% if amenities.count > 8 %>

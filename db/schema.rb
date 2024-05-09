@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_30_092410) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_09_092230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_092410) do
     t.string "service_fee_currency"
     t.integer "total_amount_cents"
     t.string "total_amount_currency"
+    t.integer "per_night_cents"
+    t.string "per_night_currency"
     t.index ["reservation_id"], name: "index_payments_on_reservation_id"
   end
 
@@ -101,10 +103,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_092410) do
     t.string "price_currency"
     t.integer "reviews_count", default: 0
     t.decimal "average_overall_rating", default: "0.0"
+    t.bigint "user_id", null: false
+    t.decimal "latitude", default: "0.0"
+    t.decimal "longitude", default: "0.0"
     t.integer "guests", default: 0
     t.integer "bedrooms", default: 0
     t.integer "bed", default: 0
     t.integer "bathroom", default: 0
+    t.index ["user_id"], name: "index_properties_on_user_id"
   end
 
   create_table "property_amenities", force: :cascade do |t|
@@ -142,10 +148,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_092410) do
     t.bigint "property_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "reservations_id", null: false
+    t.bigint "reservation_id", null: false
     t.index ["property_id"], name: "index_reviews_on_property_id"
-    t.index ["reservations_id"], name: "index_reviews_on_reservations_id"
-    t.index ["user_id", "property_id", "reservations_id"], name: "index_reviews_on_user_id_and_property_id_and_reservations_id", unique: true
+    t.index ["reservation_id"], name: "index_reviews_on_reservation_id"
+    t.index ["user_id", "property_id", "reservation_id"], name: "index_reviews_on_user_id_and_property_id_and_reservation_id", unique: true
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
@@ -175,12 +181,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_092410) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "payments", "reservations"
   add_foreign_key "profiles", "users"
+  add_foreign_key "properties", "users"
   add_foreign_key "property_amenities", "amenities"
   add_foreign_key "property_amenities", "properties"
   add_foreign_key "reservations", "properties"
   add_foreign_key "reservations", "users"
   add_foreign_key "reviews", "properties"
-  add_foreign_key "reviews", "reservations", column: "reservations_id"
+  add_foreign_key "reviews", "reservations"
   add_foreign_key "reviews", "users"
   add_foreign_key "whislists", "properties"
   add_foreign_key "whislists", "users"

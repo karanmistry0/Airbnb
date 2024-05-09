@@ -1,0 +1,77 @@
+<div class="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
+
+  <%= render "shared/owner_sidebar" %>
+  <main>
+    <div class="px-8 py-8 border rounded-md lg:flex-auto my-8">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Property Images</h2>
+        <div class="items-center grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5">
+          <% @property.images.each do |image| %>
+            <div class=" relative w-40 h-40">
+              <%= image_tag image,class:"w-40 h-40"%>
+              <%= button_to remove_images_owner_property_path(image_id: image.id),method: :delete,class:"absolute top-1 right-1 bg-white rounded-full" do%>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-primary ">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                </svg>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div class="flex">
+          <%= form_with model: @property,url:add_images_owner_property_path,class:"mt-10 "  do |f| %>
+            <%= f.label :images,class:"block text-sm font-medium leading-6 text-gray-900" %>
+            <%= f.file_field :images,class:"mt-2",multiple: true%>
+            <%= f.submit "Add Images",class:" mt-5 cursor-pointer flex h-10 items-center justify-center rounded-md border border-transparent bg-primary px-8 py-1 text-base font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"%>
+        <% end %>
+        </div>
+      </div>
+    </div>
+    <%= render "owner/properties/form",path:owner_property_path %>
+
+    <div class="px-8 py-8 border rounded-md lg:flex-auto my-8">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Property location</h2>
+        <%= form_with model: @property,url: update_location_owner_property_path,class:"mt-10 "  do |f| %>
+
+          <div class="mt-8 h-96" data-controller="map">
+            <div id="map" class="mt-5 rounded-md"></div>
+            <%= f.hidden_field :latitude ,data:{"map-target":"latitude"}%>
+            <%= f.hidden_field :longitude ,data:{"map-target":"longitude"}%>
+          </div>
+
+          <%= f.submit "Save changes",class:"cursor-pointer flex h-10 items-center justify-center rounded-md border border-transparent bg-primary px-8 py-1 text-base font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"%>
+
+        <% end %>
+      </div>
+    </div>
+
+
+    <div class="px-8 py-8 border rounded-md lg:flex-auto my-8">
+      <div>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Property Amenities</h2>
+        <%= form_with model: @property,url:update_amenities_owner_property_path,class:"mt-10 "  do |f| %>
+
+          <div class="mt-8 grid grid-col-1 lg:grid-cols-2">
+            <% Amenity.all.each do |amenity| %>
+              <div class="py-2 flex items-center">
+                <%= f.check_box :amenity_ids,{class:"me-4 text-primary focus:ring-primary rounded-md",multiple:true},amenity.id,nil%>
+                <%= render "properties/amenity_item",amenity:amenity %>
+              </div>
+            <% end %>
+          </div>
+
+          <%= f.submit "Save changes",class:"cursor-pointer flex h-10 items-center justify-center rounded-md border border-transparent bg-primary px-8 py-1 text-base font-medium text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"%>
+
+        <% end %>
+      </div>
+    </div>
+    <div class="px-8 py-8 border rounded-md lg:flex-auto my-8">
+      <h2 class="text-xl font-semibold leading-7 text-primary">Delete Property</h2>
+      <p>Property will be deleted permanently. Are you sure?</p>
+      <%= button_to "Delete",owner_property_path,method: :delete,class:"mt-5 py-2 px-10 text-white font-medium bg-primary hover:bg-primary-dark " %>
+    </div>
+  </main>
+</div>
+
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+({key: "AIzaSyB-82yntowUQYIukPOIZI7QO8byoFTKyCM", v: "weekly"});</script>

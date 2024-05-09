@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   has_many :reviews,dependent: :destroy
 
+  has_many :properties,dependent: :destroy
+
   has_many :whislists
   has_many :whislisted_properties, through: :whislists,source: :property,dependent: :destroy
 

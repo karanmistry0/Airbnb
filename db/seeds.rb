@@ -104,11 +104,14 @@ end
     city: Faker::Address.city,
     state: Faker::Address.state,
     country_code: Faker::Address.country_code,
+    latitude: Faker::Address.latitude,
+    longitude: Faker::Address.longitude,
     price: Money.from_amount((50..100).to_a.sample, "USD"),
     guests: (1..20).to_a.sample,
     bedrooms: (2..5).to_a.sample,
     bed: (1..10).to_a.sample,
     bathroom: (1..4).to_a.sample,
+    user_id: User.all.sample.id
     )
   property.images.attach(io: File.open("db/images/property_#{i+1}.png"),filename: property.name)
   property.images.attach(io: File.open("db/images/property_7.png"),filename: property.name)

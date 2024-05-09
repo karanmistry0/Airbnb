@@ -43,23 +43,8 @@
       <!-- Booking details -->
       <div class="mt-4 lg:col-span-2 lg:mt-0 border border-gray-300 rounded-xl p-4 h-min">
         <h2 class="sr-only">Product information</h2>
+        <%= render "properties/mini_property_item",property:@property %>
 
-        <div class="flex">
-          <%= image_tag @property.images[0], class:"w-20 h-20 object-cover rounded-md"%>
-          <div class="ml-3 flex flex-col text-black font-medium text-sm">
-            <div><%= @property.name %> - <%= @property.city %>, <%= country_name(@property.country_code) %></div>
-            <span class="inline-flex items-center pointer-events-none block text-sm font-light text-black">
-              <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
-                <path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path>
-              </svg>
-              <% if @property.reviews_count != 0 %>
-                <%= @property.average_overall_rating.round(2) %> (<%= @property.reviews_count %> reviews)
-              <% else %>
-                New
-              <% end %>
-            </span>
-          </div>
-        </div>
         <div class="relative py-6">
           <div class="absolute inset-0 flex items-center" aria-hidden="true">
             <div class="w-full border-t border-gray-300"></div>

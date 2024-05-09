@@ -19,6 +19,32 @@
 @import "stripe.css";
 
 
+.h-screen-navbar{
+    height: calc(100vh - 112px);
+}
+
+/* HTML marker styles */
+.price-tag {
+    background-color: #ff385c;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.price-tag::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #ff385c;
+}
 
 #profile_country_code{
     border: 1px solid #d1d5da;

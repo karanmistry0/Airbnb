@@ -1,0 +1,89 @@
+<div class="bg-white " data-controller="map">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 gap-x-4">
+
+    <div class="overflow-y-auto h-screen-navbar mt-5 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+      <% @properties.each do |property|%>
+        <%= link_to property_path(property) do %>
+          <div class="property-items-wrapper group relative cursor-pointer"
+               data-map-target="property"
+               data-latitude="<%= property.latitude %>"
+               data-longitude="<%= property.longitude %>"
+               data-price="<%= humanized_money_with_symbol(property.price) %>">
+
+            <!-- Slider main container -->
+            <div class="relative aspect-h-1 aspect-w-1 h-64 w-full overflow-hidden rounded-md bg-gray-200 ">
+              <div class="swiper ">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                  <!-- Slides -->
+                  <% property.images.each do |image| %>
+                    <%= image_tag image, class:"swiper-slide h-full w-full object-cover object-center lg:h-full lg:w-full" %>
+                  <% end %>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+              </div>
+              <div class="absolute z-[2] right-0 top-0 m-4">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 32 32"
+                     aria-hidden="true"
+                     role="presentation"
+                     focusable="false"
+                     class="block h-6 w-6 stroke-white stroke-2 <%= property.whistlisted_by?(current_user) ? 'fill-primary' : 'fill-none' %>"
+                     style="overflow: visible;"
+                     data-controller="whislist"
+                     data-whislist-target="icon"
+                     data-user-logged-in="<%= user_signed_in? %>"
+                     data-property-id="<%= property.id %>"
+                     data-user-id="<%= current_user&.id %>"
+                     data-whistlist-id="<%= property.whislists.find_by(user: current_user)&.id %>"
+                     data-action="click->whislist#updateWhislistStatus"
+                     data-status="<%= property.whistlisted_by?(current_user) %>"
+                >
+                  <path d="M16 28c7-4.73 14-10 14-17a6.98 6.98 0 0 0-7-7c-1.8 0-3.58.68-4.95 2.05L16 8.1l-2.05-2.05a6.98 6.98 0 0 0-9.9 0A6.98 6.98 0 0 0 2 11c0 7 7 12.27 14 17z"></path>
+                </svg>
+              </div>
+            </div>
+
+
+
+            <div class="mt-3">
+              <div class="flex justify-between">
+                <h3 class="text-sm font-medium text-gray-700">
+                  <%= property.city %>,<%= country_name(property.country_code) %>
+                </h3>
+                <p class="flex items-center font-light text-sm">
+                  <svg class="mr-1  block h-3 w-3 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false"><path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path></svg>
+
+                  <% if property.reviews_count != 0 %>
+                    <%= (property.average_overall_rating).round(2) %> (<%= property.reviews_count %>)
+                  <% else %>
+                    New
+                  <% end %>
+
+                </p>
+              </div>
+
+
+              <p class="mt-0.5 text-sm text-gray-500"><%= property.bed %> beds</p>
+              <p class="mt-0.5 text-sm text-gray-500"><%= property.available_dates.first %> - <%= property.available_dates.last %></p>
+              <p class="mt-0.5 text-sm font-light text-black"><span class="font-medium"><%= humanized_money_with_symbol(property.price) %></span> night</p>
+
+            </div>
+          </div>
+        <%end %>
+      <% end %>
+      <!-- More products... -->
+    </div>
+    <div id="map" class="mt-5 rounded-md"></div>
+
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+    ({key: "AIzaSyB-82yntowUQYIukPOIZI7QO8byoFTKyCM", v: "weekly"});</script>
+  </div>
+</div>

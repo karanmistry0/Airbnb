@@ -28,4 +28,19 @@ Rails.application.routes.draw do
   resources :reservations, only: [:index] do
     resources :reviews, only: [:new,:create]
   end
+
+  namespace :owner do
+    resources :dashboard ,only: :index
+    resources :properties do
+      member do
+        patch 'update_location'
+        patch 'update_amenities'
+        patch 'add_images'
+        delete 'remove_images'
+      end
+    end
+    resources :reservations, only: :index
+  end
+
+  get "/search",to: "search#index"
 end

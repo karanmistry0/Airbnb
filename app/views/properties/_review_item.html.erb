@@ -1,0 +1,28 @@
+<div class="flex flex-col ">
+
+  <div class="flex items-center">
+    <%= image_tag review.user.profile.picture,alt:review.user.profile.name ,class:"h-12 w-12 rounded-full" %>
+    <div>
+      <p class="ms-4 text-sm font-medium text-gray-900"><%= review.user.profile.name %></p>
+      <p class="ms-4 text-xs font-base text-gray-900"><%= review.user.profile.city %>, <%= country_name(review.user.profile.country_code) %></p>
+    </div>
+  </div>
+  <div class="mt-2 flex items-center">
+    <% 5.times do |i|%>
+      <svg class="<%= review.overall_rating.round(0) > i ? "text-black":"text-gray-300" %> h-3 w-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+      </svg>
+    <% end %>
+    <p class="ms-1 font-medium">·</p>
+    <p class="ms-1 text-sm font-medium"><%= review.created_at.strftime("%B") %>, <%= review.created_at.year %></p>
+    <!-- Active: "text-gray-900", Default: "text-gray-200" -->
+  </div>
+
+  <div class="mt-6 sm:mt-4">
+    <p class="sr-only">5 out of 5 stars</p>
+
+    <div class="space-y-6 text-sm text-gray-600">
+      <p><%= review.content.truncate(400) %></p>
+    </div>
+  </div>
+</div>

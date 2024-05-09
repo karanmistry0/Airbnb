@@ -10,10 +10,7 @@
     <h2 class="text-2xl font-medium leading-6 text-gray-900">What this place offers</h2>
     <div class="mt-8 ">
       <% content_params[:amenities].each do |amenity| %>
-        <div class="py-2   flex">
-          <%= image_tag "amenities/#{amenity.icon}",class:"w-6 h-6" %>
-          <p class="ms-2"><%= amenity.name %></p>
-        </div>
+        <%= render "properties/amenity_item",amenity:amenity %>
         <div class="insert-0 flex items-center py-2" aria-hidden="true">
           <div class="w-full border-t border-gray-200"></div>
         </div>
